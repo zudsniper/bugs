@@ -34,6 +34,8 @@ pnpm add @zudsniper/bugs
 
 ### Basic Usage
 
+> ⚠️ **SECURITY WARNING**: The example below shows API keys/tokens directly in code for demonstration purposes only. **Never expose sensitive credentials in frontend code**. For production applications, use the secure [proxy mode configuration](#🛡️-security-best-practices) instead.
+
 ```tsx
 import { BugReporter, defaultConfigs } from '@zudsniper/bugs';
 import '@zudsniper/bugs/styles';
@@ -57,6 +59,8 @@ That's it! Your users can now report bugs by clicking the floating bug icon.
 ### Configuration
 
 The bug reporter is highly configurable through the `BugReporterConfig` object:
+
+> ⚠️ **SECURITY WARNING**: The example below shows API keys/tokens directly in code for demonstration purposes only. **Never expose sensitive credentials in frontend code**. For production applications, use the secure [proxy mode configuration](#🛡️-security-best-practices) instead.
 
 ```tsx
 import { BugReporter, mergeConfigs, defaultConfigs } from '@zudsniper/bugs';
@@ -90,6 +94,8 @@ const config = mergeConfigs(
 
 #### GitHub Issues
 
+> ⚠️ **SECURITY WARNING**: The examples below show API keys/tokens directly in code for demonstration purposes only. **Never expose sensitive credentials in frontend code**. For production applications, use the secure [proxy mode configuration](#🛡️-security-best-practices) instead.
+
 ```tsx
 const config = defaultConfigs.github('owner/repository', 'github-token');
 
@@ -108,6 +114,8 @@ const config = {
 ```
 
 #### Linear
+
+> ⚠️ **SECURITY WARNING**: The examples below show API keys/tokens directly in code for demonstration purposes only. **Never expose sensitive credentials in frontend code**. For production applications, use the secure [proxy mode configuration](#🛡️-security-best-practices) instead.
 
 ```tsx
 const config = defaultConfigs.linear('linear-api-key', 'team-id');
@@ -145,6 +153,8 @@ const config = {
 ```
 
 #### Custom Webhook
+
+> ⚠️ **SECURITY WARNING**: The examples below show API keys/tokens directly in code for demonstration purposes only. **Never expose sensitive credentials in frontend code**. For production applications, use the secure [proxy mode configuration](#🛡️-security-best-practices) instead.
 
 ```tsx
 const config = defaultConfigs.webhook('https://your-api.com/bug-reports');
@@ -319,6 +329,8 @@ const config = {
 
 ### Next.js App Router
 
+> ⚠️ **SECURITY WARNING**: The example below uses `NEXT_PUBLIC_*` environment variables which expose values to the client-side code. **This is insecure for production**. For production applications, use the secure [proxy mode configuration](#🛡️-security-best-practices) instead.
+
 ```tsx
 'use client';
 
@@ -340,6 +352,8 @@ export default function Layout({ children }) {
 ```
 
 ### Next.js Pages Router
+
+> ⚠️ **SECURITY WARNING**: The example below uses `NEXT_PUBLIC_*` environment variables which expose values to the client-side code. **This is insecure for production**. For production applications, use the secure [proxy mode configuration](#🛡️-security-best-practices) instead.
 
 ```tsx
 // pages/_app.tsx
@@ -415,6 +429,8 @@ ReactDOM.render(
 ### Multiple Integrations
 
 Send reports to multiple services simultaneously:
+
+> ⚠️ **SECURITY WARNING**: The example below shows API keys/tokens directly in code for demonstration purposes only. **Never expose sensitive credentials in frontend code**. For production applications, use the secure [proxy mode configuration](#🛡️-security-best-practices) instead.
 
 ```tsx
 const config = {
