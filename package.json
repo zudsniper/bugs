@@ -1,0 +1,93 @@
+{
+  "name": "@zudsniper/bugs",
+  "version": "1.0.0",
+  "description": "A comprehensive, standalone bug reporter widget for React and Next.js applications with screenshot capture, console logging, and multiple integration options.",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./styles": "./dist/styles.css"
+  },
+  "scripts": {
+    "build": "rollup -c rollup.config.js",
+    "build:dev": "rollup -c rollup.config.js --watch",
+    "dev": "rollup -c rollup.config.js --watch",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "type-check": "tsc --noEmit",
+    "test": "jest",
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "bug-reporter",
+    "bug-report",
+    "feedback",
+    "screenshot",
+    "react",
+    "nextjs",
+    "typescript",
+    "github-issues",
+    "linear",
+    "jira",
+    "webhook",
+    "console-logs",
+    "network-capture",
+    "ui-component"
+  ],
+  "author": "Jason McElhenney (me@zodworks.dev)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zudsniper/bugs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zudsniper/bugs/issues"
+  },
+  "homepage": "https://github.com/zudsniper/bugs#readme",
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "dependencies": {
+    "html2canvas": "^1.4.1",
+    "framer-motion": "^11.0.0",
+    "lucide-react": "^0.400.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-typescript": "^11.1.5",
+    "@types/jest": "^29.5.5",
+    "@types/react": "^18.2.22",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.7.2",
+    "@typescript-eslint/parser": "^6.7.2",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^8.49.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "jest": "^29.7.0",
+    "postcss": "^8.4.31",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "rimraf": "^5.0.1",
+    "rollup": "^4.0.2",
+    "rollup-plugin-dts": "^6.1.0",
+    "rollup-plugin-postcss": "^4.0.2",
+    "tailwindcss": "^3.3.3",
+    "tslib": "^2.6.2",
+    "typescript": "^5.2.2"
+  }
+}

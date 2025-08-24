@@ -1,0 +1,47 @@
+# Source files
+src/
+examples/
+
+# Development files
+*.config.js
+*.config.ts
+.eslintrc.js
+tsconfig.json
+rollup.config.js
+tailwind.config.js
+
+# Development dependencies and scripts
+node_modules/
+.git/
+.gitignore
+.eslintcache
+
+# Documentation (except README)
+docs/
+*.md
+!README.md
+
+# Test files
+test/
+tests/
+__tests__/
+*.test.*
+*.spec.*
+
+# Build artifacts
+*.tsbuildinfo
+coverage/
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*.swo
+
+# Environment files
+.env*
+
+# Logs
+*.log
+logs/
