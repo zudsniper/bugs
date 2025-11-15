@@ -101,10 +101,13 @@
   z-index: calc(var(--br-z-index, 9999) + 1);
   width: 400px;
   max-width: calc(100vw - 48px);
+  max-height: calc(100vh - 48px);
   background-color: var(--br-color-background);
   border: 1px solid var(--br-color-border);
   border-radius: var(--br-border-radius);
   box-shadow: var(--br-shadow-lg);
+  display: flex;
+  flex-direction: column;
 }
 
 .br-popup-container.br-position-bottom-right {
@@ -164,6 +167,8 @@
 /* Form styles */
 .br-form {
   padding: 24px;
+  overflow-y: auto;
+  flex: 1;
 }
 
 .br-form-group {
@@ -455,6 +460,7 @@
     left: 16px !important;
     right: 16px !important;
     max-width: none;
+    max-height: calc(100vh - 32px);
   }
   
   .br-floating-button.br-position-bottom-right,

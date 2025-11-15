@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bug Reporter UI Test</title>
+    <link rel="stylesheet" href="../../../src/styles/index.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .test-controls {
+            margin-bottom: 15px;
+        }
+        button {
+            padding: 8px 16px;
+            margin: 4px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bug Reporter UI Test</h1>
+    
+    <div class="test-section">
+        <h3>Popup Position Tests</h3>
+        <div class="test-controls">
+            <button onclick="testPopup('bottom-right', false)">Bottom Right - Short</button>
+            <button onclick="testPopup('bottom-right', true)">Bottom Right - Long</button>
+            <button onclick="testPopup('top-right', false)">Top Right - Short</button>
+            <button onclick="testPopup('top-right', true)">Top Right - Long</button>
+            <button onclick="testPopup('top-left', false)">Top Left - Short</button>
+            <button onclick="testPopup('top-left', true)">Top Left - Long</button>
+        </div>
+        <p id="status">Click any button to test popup positioning</p>
+    </div>
+
+    <div class="test-section">
+        <h3>Mobile Simulation</h3>
+        <div class="test-controls">
+            <button onclick="simulateMobile()">Simulate Mobile View</button>
+            <button onclick="resetView()">Reset to Desktop</button>
+        </div>
+        <p>Current viewport: <span id="viewport">Desktop</span></p>
+    </div>
+
+    <script>
+        let currentPopup = null;
+
+        function createTestPopup(position, isLongContent) {
+            const popup = document.createElement('div');
+            popup.className = `br-popup-container br-position-${position}`;
+            popup.style.display = 'block';
+            
+            const header = document.createElement('div');
+            header.className = 'br-popup-header';
+            header.innerHTML = `
+                <h3 class="br-popup-title">
+                    <span class="br-icon">🐛</span>
+                    Test Popup - ${position}
+                </h3>
+                <button class="br-close-button" onclick="closePopup()">
+                    ✕
+                </button>
+            `;
+            
+            const form = document.createElement('div');
+            form.className = 'br-form';
+            
+            const content = isLongContent ? generateLongContent() : generateShortContent();
+            form.innerHTML = content;
+            
+            popup.appendChild(header);
+            popup.appendChild(form);
+            
+            return popup;
+        }
+
+        function generateShortContent() {
+            return `
+                <p>This is a short content popup to test basic positioning.</p>
+                <div style="margin-top: 20px;">
+                    <button onclick="closePopup()">Close</button>
+                </div>
+            `;
+        }
+
+        function generateLongContent() {
+            return `
+                <div style="margin-bottom: 20px;">
+                    <h4>Long Content Test</h4>
+                    <p>This popup contains a lot of content to test the overflow handling. The header should remain visible while this content scrolls.</p>
+                </div>
+                ${Array(15).fill(0).map((_, i) => `
+                    <div style="margin-bottom: 10px; padding: 10px; border: 1px solid #eee; border-radius: 4px;">
+                        <h5>Section ${i + 1}</h5>
+                        <p>This is section ${i + 1} of a very long form. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        <pre style="background: #f5f5f5; padding: 8px; border-radius: 4px; font-size: 12px;">
+console.log('Sample code block ${i + 1}');
+const data = {
+    field1: 'value1',
+    field2: 'value2',
+    field3: 'value3'
+};
+                        </pre>
+                    </div>
+                `).join('')}
+                <div style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 4px;">
+                    <h5>Additional Content</h5>
+                    <p>More content to ensure the popup gets very tall and tests the overflow properly.</p>
+                    <ul>
+                        ${Array(10).fill(0).map((_, i) => `<li>Item ${i + 1} in the list</li>`).join('')}
+                    </ul>
+                    <p><strong>The close button should always be visible above this content!</strong></p>
+                </div>
+            `;
+        }
+
+        function testPopup(position, isLongContent) {
+            closePopup();
+            currentPopup = createTestPopup(position, isLongContent);
+            document.body.appendChild(currentPopup);
+            
+            document.getElementById('status').textContent = `Testing ${position} popup with ${isLongContent ? 'long' : 'short'} content`;
+        }
+
+        function closePopup() {
+            if (currentPopup && currentPopup.parentNode) {
+                currentPopup.parentNode.removeChild(currentPopup);
+                currentPopup = null;
+            }
+        }
+
+        function simulateMobile() {
+            document.body.style.maxWidth = '375px';
+            document.body.style.margin = '20px auto';
+            document.body.style.border = '1px solid #ccc';
+            document.getElementById('viewport').textContent = 'Mobile (375px)';
+        }
+
+        function resetView() {
+            document.body.style.maxWidth = '';
+            document.body.style.margin = '';
+            document.body.style.border = '';
+            document.getElementById('viewport').textContent = 'Desktop';
+        }
+
+        // Close popup on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closePopup();
+            }
+        });
+    </script>
+</body>
+</html>

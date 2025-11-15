@@ -12,6 +12,9 @@ export async function POST(request: NextRequest) {
       );
     }
     
+    // Try to get triage status for the team
+    const triageStatusId = await getTriageStatusId(process.env.LINEAR_API_KEY, process.env.LINEAR_TEAM_ID);
+    
     const mutation = `
       mutation IssueCreate($input: IssueCreateInput!) {
         issueCreate(input: $input) {
@@ -41,6 +44,7 @@ export async function POST(request: NextRequest) {
             teamId: process.env.LINEAR_TEAM_ID,
             priority: 3, // Medium priority
             ...(process.env.LINEAR_PROJECT_ID && { projectId: process.env.LINEAR_PROJECT_ID }),
+            ...(triageStatusId && { stateId: triageStatusId }), // Use triage status if available
           }
         }
       })
@@ -77,6 +81,62 @@ export async function POST(request: NextRequest) {
       }, 
       { status: 500 }
     );
+  }
+}
+
+async function getTriageStatusId(apiKey: string, teamId: string): Promise<string | null> {
+  try {
+    const query = `
+      query TeamStates($id: String!) {
+        team(id: $id) {
+          states {
+            nodes {
+              id
+              name
+              type
+            }
+          }
+        }
+      }
+    `;
+
+    const response = await fetch('https://api.linear.app/graphql', {
+      method: 'POST',
+      headers: {
+        'Authorization': apiKey,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query,
+        variables: { id: teamId }
+      })
+    });
+
+    if (!response.ok) {
+      console.warn('Failed to fetch team states:', response.status);
+      return null;
+    }
+
+    const result = await response.json();
+    
+    if (result.errors || !result.data?.team?.states?.nodes) {
+      console.warn('Could not parse team states from response');
+      return null;
+    }
+
+    const states = result.data.team.states.nodes;
+    const triageState = states.find((state: any) => state.type === 'triage');
+    
+    if (triageState) {
+      console.log(`Found triage status: ${triageState.name} (${triageState.id})`);
+      return triageState.id;
+    }
+    
+    console.log('No triage status found for this team, using default behavior');
+    return null;
+  } catch (error) {
+    console.warn('Error fetching triage status:', error);
+    return null;
   }
 }
 
